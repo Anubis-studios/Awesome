@@ -1,0 +1,17 @@
+rootProject.name = "UserLAnd"
+include ':app', ':UserLAndLibrary'
+project(':UserLAndLibrary').projectDir = new File('UserLAndLibrary/app')
+
+include ':CustomLibrary'
+project(':CustomLibrary').projectDir = new File('CustomLibrary')
+
+include ':terminal-view', ':terminal-emulator', ':terminal-app'
+project(':terminal-app').projectDir = new File('UserLAndLibrary/termux-app-private/app')
+project(':terminal-view').projectDir = new File('UserLAndLibrary/termux-app-private/terminal-view')
+project(':terminal-emulator').projectDir = new File('UserLAndLibrary/termux-app-private/terminal-emulator')
+
+include ':pubkeyGenerator', ':bVNC', ':remoteClientLib', ':freeRDPCore'
+project(':bVNC').projectDir = new File('UserLAndLibrary/remote-desktop-clients-private/bVNC')
+project(':pubkeyGenerator').projectDir = new File('UserLAndLibrary/remote-desktop-clients-private/pubkeyGenerator')
+project(':remoteClientLib').projectDir = new File('UserLAndLibrary/remote-desktop-clients-private/remoteClientLib')
+project(':freeRDPCore').projectDir = new File('UserLAndLibrary/remote-desktop-clients-private/remoteClientLib/jni/libs/deps/FreeRDP/client/Android/Studio/freeRDPCore')
