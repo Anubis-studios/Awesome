@@ -1,5 +1,6 @@
 package com.awesome.aimodels
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,7 +16,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.Launch
 import androidx.compose.material.icons.filled.OpenInNew
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SmartToy
 import androidx.compose.material3.*
@@ -34,7 +37,8 @@ enum class ModelCategory(val displayName: String) {
     ALL("All"),
     LLM("LLM & Text APIs"),
     VIDEO("Video Generation"),
-    APP_GAME("App & Game Generators")
+    APP_GAME("App & Game Generators"),
+    SKILLS("Agentic Skills & WebApps")
 }
 
 data class AIResource(
@@ -44,55 +48,135 @@ data class AIResource(
     val accessType: String, // e.g., "Free API Tier", "Open Weights", "Web Studio / Free Tier"
     val description: String,
     val capabilities: List<String>,
-    val url: String
+    val url: String,
+    val allowEmbedded: Boolean = true
 )
 
 val aiResourceCatalog = listOf(
+    // App & Game Generators
+    AIResource(
+        name = "v0 by Vercel",
+        category = ModelCategory.APP_GAME,
+        provider = "Vercel",
+        accessType = "In-App Generator Studio",
+        description = "Generative UI system that builds React, Next.js, and Tailwind CSS components and web applications directly inside prompts.",
+        capabilities = listOf("React Components", "Tailwind CSS", "Interactive Preview", "In-App Build"),
+        url = "https://v0.dev/",
+        allowEmbedded = true
+    ),
+    AIResource(
+        name = "Bolt.new",
+        category = ModelCategory.APP_GAME,
+        provider = "StackBlitz",
+        accessType = "In-App Generator Studio",
+        description = "In-browser AI app builder that generates full-stack web applications, installs packages, and executes code in-app.",
+        capabilities = listOf("Full Stack App Builder", "WebContainer VM", "In-browser Execution", "Deploy Ready"),
+        url = "https://bolt.new/",
+        allowEmbedded = true
+    ),
+    AIResource(
+        name = "Lovable.dev",
+        category = ModelCategory.APP_GAME,
+        provider = "Lovable",
+        accessType = "In-App Generator Studio",
+        description = "Full-stack AI web application generator converting natural language ideas into production React & Supabase apps.",
+        capabilities = listOf("Full Stack Web Apps", "React & Vite", "Supabase Backend", "In-App Workspace"),
+        url = "https://lovable.dev/",
+        allowEmbedded = true
+    ),
+    AIResource(
+        name = "Claude Artifacts Studio",
+        category = ModelCategory.APP_GAME,
+        provider = "Anthropic",
+        accessType = "In-App Generator Studio",
+        description = "Interactive execution workspace inside Claude that creates single-page web apps, mini-games, SVG graphics, and tools.",
+        capabilities = listOf("Interactive Games", "React & HTML Apps", "Live Sandbox", "Instant Playground"),
+        url = "https://claude.ai/",
+        allowEmbedded = true
+    ),
+    AIResource(
+        name = "Rosebud AI Game Crafter",
+        category = ModelCategory.APP_GAME,
+        provider = "Rosebud AI",
+        accessType = "In-App Generator Studio",
+        description = "Generates 2D & 3D browser games (Three.js / Phaser) from prompts with in-app code editing and asset creation.",
+        capabilities = listOf("2D & 3D Web Games", "Phaser.js / Three.js", "Asset Generator", "Playable Games"),
+        url = "https://play.rosebud.ai/",
+        allowEmbedded = true
+    ),
+
+    // Agentic Skills & WebApps (Sourced from sickn33/agentic-awesome-skills)
+    AIResource(
+        name = "Agentic Skills Discovery Engine",
+        category = ModelCategory.SKILLS,
+        provider = "Agentic Awesome Skills",
+        accessType = "In-App Interactive Suite",
+        description = "Explore 2600+ agentic skills, prompt tools, automation stacks, and web app generators directly in-app.",
+        capabilities = listOf("2600+ Skills", "AAS Stack", "Workflow Automation", "Direct Generator"),
+        url = "https://agentic-awesome-skills.vercel.app/",
+        allowEmbedded = true
+    ),
+    AIResource(
+        name = "Open Generative AI Studio",
+        category = ModelCategory.SKILLS,
+        provider = "Open Generative AI",
+        accessType = "In-App Interactive Suite",
+        description = "Self-hosted & cloud media studio for generating images, videos, and interactive app prototypes.",
+        capabilities = listOf("Generative Media", "Interactive Apps", "Open Source", "Instant Playground"),
+        url = "https://github.com/Anil-matcha/Open-Generative-AI",
+        allowEmbedded = true
+    ),
+
     // LLMs & Text APIs
     AIResource(
         name = "Google AI Studio (Gemini 1.5 Pro & Flash)",
         category = ModelCategory.LLM,
         provider = "Google",
-        accessType = "Free API Tier",
+        accessType = "In-App API Playground",
         description = "High-rate-limit free access to Gemini 1.5 Flash and Gemini 1.5 Pro with huge context window (up to 2M tokens).",
         capabilities = listOf("Text", "Multimodal", "Code", "2M Context Window"),
-        url = "https://aistudio.google.com/"
+        url = "https://aistudio.google.com/",
+        allowEmbedded = true
     ),
     AIResource(
         name = "Groq LPU Inference Engine",
         category = ModelCategory.LLM,
         provider = "Groq",
-        accessType = "Free API Tier",
+        accessType = "In-App API Playground",
         description = "Ultra-fast inference speed for open models like Llama 3.3 70B, DeepSeek R1 Distill, Mixtral, and Gemma 2.",
         capabilities = listOf("Ultra Fast Inference", "Llama 3.3 70B", "DeepSeek R1", "Whisper STT"),
-        url = "https://console.groq.com/"
+        url = "https://console.groq.com/",
+        allowEmbedded = true
     ),
     AIResource(
         name = "Hugging Face Serverless Inference API",
         category = ModelCategory.LLM,
         provider = "Hugging Face",
-        accessType = "Free API Tier",
+        accessType = "In-App API Playground",
         description = "Access thousands of open-source LLMs and text generation models hosted on Hugging Face Hub for free.",
         capabilities = listOf("Open Source Models", "Serverless API", "Text Generation", "Embeddings"),
-        url = "https://huggingface.co/docs/api-inference/"
+        url = "https://huggingface.co/docs/api-inference/",
+        allowEmbedded = true
     ),
     AIResource(
         name = "OpenRouter Free Models",
         category = ModelCategory.LLM,
         provider = "OpenRouter",
-        accessType = "Free API Endpoints",
+        accessType = "In-App API Playground",
         description = "Unified API endpoint offering free access to select open models (e.g. DeepSeek, Llama 3, Qwen 2.5, Mistral).",
         capabilities = listOf("Unified API", "DeepSeek R1", "Llama 3", "Qwen 2.5 Free"),
-        url = "https://openrouter.ai/models?max_price=0"
+        url = "https://openrouter.ai/models?max_price=0",
+        allowEmbedded = true
     ),
     AIResource(
         name = "Together AI Free Tier",
         category = ModelCategory.LLM,
         provider = "Together AI",
-        accessType = "Free API Credits",
+        accessType = "In-App API Playground",
         description = "Fast API endpoint providing free initial credits to access fine-tuned Llama 3, Qwen, and DeepSeek variants.",
         capabilities = listOf("Fast Inference", "Llama 3", "DeepSeek", "Image Models"),
-        url = "https://www.together.ai/"
+        url = "https://www.together.ai/",
+        allowEmbedded = true
     ),
     AIResource(
         name = "Ollama / LM Studio (Local Runner)",
@@ -101,7 +185,8 @@ val aiResourceCatalog = listOf(
         accessType = "Local Open Weights",
         description = "Run open LLMs locally on CPU/GPU with 100% privacy and zero cost.",
         capabilities = listOf("Offline Execution", "Privacy First", "GGUF Quantization", "Custom Modelfiles"),
-        url = "https://ollama.com/"
+        url = "https://ollama.com/",
+        allowEmbedded = true
     ),
 
     // Video Generation
@@ -109,111 +194,51 @@ val aiResourceCatalog = listOf(
         name = "Wan2.2 & Wan2.1 Video Models",
         category = ModelCategory.VIDEO,
         provider = "Wan-Video / Alibaba Qwen",
-        accessType = "Open Weights & Free API Snapshots",
+        accessType = "Open Weights & In-App Studio",
         description = "State-of-the-art text-to-video, image-to-video, and character animation foundation models.",
         capabilities = listOf("Text-to-Video", "Image-to-Video", "Audio Sync", "480p/720p/1080p"),
-        url = "https://github.com/Wan-Video/Wan2.2"
+        url = "https://github.com/Wan-Video/Wan2.2",
+        allowEmbedded = true
     ),
     AIResource(
         name = "LTX-2 & LTX-2.3",
         category = ModelCategory.VIDEO,
         provider = "Lightricks",
-        accessType = "Open Weights",
+        accessType = "Open Weights & In-App Studio",
         description = "Real-time, audio-synchronized video foundation model with LoRA control and keyframe generation.",
         capabilities = listOf("Realtime Video", "Audio Sync", "Keyframe Control", "LoRA Adapters"),
-        url = "https://github.com/Lightricks/LTX-Video"
+        url = "https://github.com/Lightricks/LTX-Video",
+        allowEmbedded = true
     ),
     AIResource(
         name = "HunyuanVideo & HunyuanVideo-1.5",
         category = ModelCategory.VIDEO,
         provider = "Tencent",
-        accessType = "Open Weights",
+        accessType = "Open Weights & In-App Studio",
         description = "High-quality text-to-video and image-to-video model with step-distilled fast inference options.",
         capabilities = listOf("Text-to-Video", "Image-to-Video", "Step Distillation", "High Fidelity"),
-        url = "https://github.com/Tencent-Hunyuan/HunyuanVideo"
+        url = "https://github.com/Tencent-Hunyuan/HunyuanVideo",
+        allowEmbedded = true
     ),
     AIResource(
         name = "CogVideoX & CogVideoX1.5",
         category = ModelCategory.VIDEO,
         provider = "THUDM / Zhipu AI",
-        accessType = "Open Weights",
+        accessType = "Open Weights & In-App Studio",
         description = "Open-source video diffusion model supporting text-to-video, image-to-video, and video continuation.",
         capabilities = listOf("Text-to-Video", "Image-to-Video", "Video Extension", "ComfyUI Integration"),
-        url = "https://github.com/THUDM/CogVideo"
+        url = "https://github.com/THUDM/CogVideo",
+        allowEmbedded = true
     ),
     AIResource(
         name = "Mochi 1",
         category = ModelCategory.VIDEO,
         provider = "Genmo AI",
-        accessType = "Open Weights",
+        accessType = "Open Weights & In-App Studio",
         description = "Open text-to-video diffusion model featuring smooth motion generation and high visual motion clarity.",
         capabilities = listOf("Text-to-Video", "High Motion Quality", "ComfyUI Nodes", "Apache 2.0"),
-        url = "https://github.com/genmoai/mochi"
-    ),
-    AIResource(
-        name = "AnimateDiff",
-        category = ModelCategory.VIDEO,
-        provider = "Guo et al. / Open Source",
-        accessType = "Open Source Motion Modules",
-        description = "Animate any Stable Diffusion checkpoint with motion modeling for personalized video creation.",
-        capabilities = listOf("Animation", "Stable Diffusion Base", "LoRA Control", "Local Workflow"),
-        url = "https://github.com/guoyww/AnimateDiff"
-    ),
-
-    // App & Game Generators
-    AIResource(
-        name = "v0 by Vercel",
-        category = ModelCategory.APP_GAME,
-        provider = "Vercel",
-        accessType = "Free Tier Web Tool",
-        description = "Generative UI system that builds React, Next.js, and Tailwind CSS components and web applications from prompts.",
-        capabilities = listOf("React Components", "Tailwind CSS", "Interactive Preview", "Code Export"),
-        url = "https://v0.dev/"
-    ),
-    AIResource(
-        name = "Bolt.new",
-        category = ModelCategory.APP_GAME,
-        provider = "StackBlitz",
-        accessType = "Free Tier Web Studio",
-        description = "In-browser AI app builder that generates full-stack web applications, installs packages, and executes code.",
-        capabilities = listOf("Full Stack App Builder", "WebContainer VM", "In-browser Execution", "Deploy Ready"),
-        url = "https://bolt.new/"
-    ),
-    AIResource(
-        name = "Lovable.dev",
-        category = ModelCategory.APP_GAME,
-        provider = "Lovable",
-        accessType = "Free Tier Web Studio",
-        description = "Full-stack AI web application generator converting natural language ideas into production React & Supabase apps.",
-        capabilities = listOf("Full Stack Web Apps", "React & Vite", "Supabase Backend", "GitHub Sync"),
-        url = "https://lovable.dev/"
-    ),
-    AIResource(
-        name = "Claude Artifacts",
-        category = ModelCategory.APP_GAME,
-        provider = "Anthropic",
-        accessType = "Free Web Tier",
-        description = "Interactive execution workspace inside Claude that creates single-page web apps, mini-games, SVG graphics, and tools.",
-        capabilities = listOf("Interactive Games", "React & HTML Apps", "Live Preview", "Instant Sharing"),
-        url = "https://claude.ai/"
-    ),
-    AIResource(
-        name = "Rosebud AI Game Crafter",
-        category = ModelCategory.APP_GAME,
-        provider = "Rosebud AI",
-        accessType = "Free Web Creator Tier",
-        description = "Generates 2D & 3D browser games (Three.js / Phaser) from prompts with code editing and asset creation.",
-        capabilities = listOf("2D & 3D Web Games", "Phaser.js / Three.js", "Asset Generator", "Playable Links"),
-        url = "https://play.rosebud.ai/"
-    ),
-    AIResource(
-        name = "LGM (Large Game Model) / Open-Game-AI",
-        category = ModelCategory.APP_GAME,
-        provider = "Open Source Community",
-        accessType = "Open Source Repositories",
-        description = "Collection of open-source frameworks for prompt-to-game generation and procedurally generated assets.",
-        capabilities = listOf("Procedural Assets", "HTML5 Games", "Code Synthesis", "Open Source"),
-        url = "https://github.com/Anil-matcha/Open-Generative-AI"
+        url = "https://github.com/genmoai/mochi",
+        allowEmbedded = true
     )
 )
 
@@ -265,7 +290,7 @@ fun AwesomeAIModelsApp() {
                             modifier = Modifier.padding(end = 8.dp)
                         )
                         Text(
-                            text = "Awesome Free AI Catalog",
+                            text = "Awesome Free AI Studio",
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp
                         )
@@ -288,7 +313,7 @@ fun AwesomeAIModelsApp() {
                 value = searchQuery,
                 onValueChange = { searchQuery = it },
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("Search LLMs, video models, app generators...") },
+                placeholder = { Text("Search generators, LLMs, games, apps...") },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp)
@@ -313,7 +338,7 @@ fun AwesomeAIModelsApp() {
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = "Catalog Entries (${filteredResources.size})",
+                text = "In-App Generators & Catalog (${filteredResources.size})",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -329,7 +354,14 @@ fun AwesomeAIModelsApp() {
                 items(filteredResources) { resource ->
                     ResourceCard(
                         resource = resource,
-                        onOpenUrl = { url ->
+                        onOpenInApp = { url, title ->
+                            val intent = Intent(context, GeneratorWebViewActivity::class.java).apply {
+                                putExtra("EXTRA_URL", url)
+                                putExtra("EXTRA_TITLE", title)
+                            }
+                            context.startActivity(intent)
+                        },
+                        onOpenBrowser = { url ->
                             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                             context.startActivity(intent)
                         },
@@ -347,7 +379,8 @@ fun AwesomeAIModelsApp() {
 @Composable
 fun ResourceCard(
     resource: AIResource,
-    onOpenUrl: (String) -> Unit,
+    onOpenInApp: (String, String) -> Unit,
+    onOpenBrowser: (String) -> Unit,
     onCopyUrl: (String) -> Unit
 ) {
     Card(
@@ -433,7 +466,7 @@ fun ResourceCard(
             // Actions
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = { onCopyUrl(resource.url) }) {
@@ -444,19 +477,33 @@ fun ResourceCard(
                     )
                 }
 
-                Spacer(modifier = Modifier.width(4.dp))
-
-                Button(
-                    onClick = { onOpenUrl(resource.url) },
-                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "Visit Resource", fontSize = 12.sp)
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Icon(
-                        imageVector = Icons.Default.OpenInNew,
-                        contentDescription = null,
-                        modifier = Modifier.size(14.dp)
-                    )
+                    OutlinedButton(
+                        onClick = { onOpenBrowser(resource.url) },
+                        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Launch,
+                            contentDescription = null,
+                            modifier = Modifier.size(14.dp)
+                        )
+                    }
+
+                    Button(
+                        onClick = { onOpenInApp(resource.url, resource.name) },
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.PlayArrow,
+                            contentDescription = null,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(text = "Use Generator In-App", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                    }
                 }
             }
         }
