@@ -14,7 +14,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          submodules: recursive
+          # submodules: false (all code is committed directly in repo)
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
